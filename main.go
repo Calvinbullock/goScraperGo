@@ -6,49 +6,54 @@ import (
   "github.com/gocolly/colly"
 )
 
-type PageInfo struct {
+type PageLinks struct {
   title string
   link string
 }
 
 func main() {
-  //tarURL := "https://www.thecoupleproject.com"
-  //tarURL := "https://www.amazon.com"
   tarURL := "https://9to5mac.com"
+  articles := scrapeUrl(tarURL)
+ 
+  fmt.Println("Collected links:")
+  for _, article := range articles {
+    fmt.Printf("\n%s \n%s\n", article.title, article.link)
+  }
+}
 
+func linkSearch(articles []PageLinks) {
+
+}
+
+// Scrapes a url and returns the slice of links with there titles
+func scrapeUrl(tarUrl string) []PageLinks {
   // Instantiate default collector
   c := colly.NewCollector(
-    // Visit only domains: hackerspaces.org, wiki.hackerspaces.org
-    //colly.AllowedDomains("hackerspaces.org", "wiki.hackerspaces.org"),
-    //colly.AllowedDomains("www.thecoupleproject.com", "thecoupleproject.com"),
-    colly.AllowedDomains("9to5mac.com", "9to5mac.com"),
+    //colly.AllowedDomains("9to5mac.com", "9to5mac.com"),
   )
  
-  var articles []PageInfo 
-  element := "h[ref]"
+  var articles []PageLinks
+  selector := "a.article__title-link" // NOTE put this in the paramiters.
 
-  // On every a element which has href attribute call callback
-  c.OnHTML(element, func(e *colly.HTMLElement) {
+  // On every a element which has selector attribute scrape the link and title
+  c.OnHTML(selector, func(e *colly.HTMLElement) {
     link := e.Attr("href")
-    // Print link
-    fmt.Printf("Link found: %q -> %s\n", e.Text, link)
+    title := e.Text
 
-    page := PageInfo {link:link}
+    page := PageLinks{link:link, title: title}
     articles = append(articles, page)
   })
 
-   c.OnError(func(r *colly.Response, e error) {
-    fmt.Printf("Error on scrap: %s\n", e.Error())
-  })
-
   // Start scraping on tarURL
-  c.Visit(tarURL)
-
-  for _, article := range articles {
-    fmt.Println(article.link)
+  err := c.Visit(tarUrl)
+  
+  //
+  if err != nil {
+    fmt.Println("Error:", err)
   }
-
-  fmt.Printf("c: %v\n", c)
-
+  
+  // statues print
+  fmt.Printf("\nc: %v\n", c)
+  return articles 
 }
 
