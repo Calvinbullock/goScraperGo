@@ -35,19 +35,9 @@ func main() {
 
     page := PageInfo {link:link}
     articles = append(articles, page)
+  })
 
-    // Visit link found on page
-    // Only those links are visited which are in AllowedDomains
-    //c.Visit(e.Request.AbsoluteURL(link))
-  })
-  
-  /*
-  // Before making a request print "Visiting ..."
-  c.OnRequest(func(r *colly.Request) {
-    fmt.Println("Visiting", r.URL.String())
-  })
-  */
-  c.OnError(func(r *colly.Response, e error) {
+   c.OnError(func(r *colly.Response, e error) {
     fmt.Printf("Error on scrap: %s\n", e.Error())
   })
 
@@ -55,7 +45,7 @@ func main() {
   c.Visit(tarURL)
 
   for _, article := range articles {
-    fmt.Println(article)
+    fmt.Println(article.link)
   }
 
   fmt.Printf("c: %v\n", c)
