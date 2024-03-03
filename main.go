@@ -1,9 +1,8 @@
-
 package main
 
 import (
-  "fmt"
-  "github.com/gocolly/colly"
+	"fmt"
+	"github.com/gocolly/colly"
 )
 
 type PageLinks struct {
@@ -13,7 +12,7 @@ type PageLinks struct {
 
 func main() {
   tarURL := "https://9to5mac.com"
-  articles := scrapeUrl(tarURL)
+  articles := scrapeUrl(tarURL, "a.article__title-link")
  
   fmt.Println("Collected links:")
   for _, article := range articles {
@@ -26,14 +25,13 @@ func linkSearch(articles []PageLinks) {
 }
 
 // Scrapes a url and returns the slice of links with there titles
-func scrapeUrl(targetUrl string) []PageLinks {
+func scrapeUrl(targetUrl string, selector string) []PageLinks {
   // Instantiate default collector
   c := colly.NewCollector(
     //colly.AllowedDomains("9to5mac.com", "9to5mac.com"),
   )
  
   var articles []PageLinks
-  selector := "a.article__title-link" // NOTE put this in the paramiters.
 
   // On every a element which has selector attribute scrape the link and title
   c.OnHTML(selector, func(e *colly.HTMLElement) {
