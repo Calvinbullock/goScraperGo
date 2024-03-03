@@ -26,7 +26,7 @@ func linkSearch(articles []PageLinks) {
 }
 
 // Scrapes a url and returns the slice of links with there titles
-func scrapeUrl(tarUrl string) []PageLinks {
+func scrapeUrl(targetUrl string) []PageLinks {
   // Instantiate default collector
   c := colly.NewCollector(
     //colly.AllowedDomains("9to5mac.com", "9to5mac.com"),
@@ -45,7 +45,7 @@ func scrapeUrl(tarUrl string) []PageLinks {
   })
 
   // Start scraping on tarURL
-  err := c.Visit(tarUrl)
+  err := c.Visit(targetUrl)
   
   //
   if err != nil {
