@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gocolly/colly"
+  "fmt"
+  "github.com/gocolly/colly"
 )
 
 type PageLinks struct {
@@ -20,11 +20,23 @@ func main() {
   }
 }
 
-func linkSearch(articles []PageLinks) {
+// TODO
+func connectDataBase() {
 
 }
 
+// TODO
+func userInput() {
+
+}
+
+// TODO
+func linkSearch(articles []PageLinks, searchTarget string) {
+  
+}
+
 // Scrapes a url and returns the slice of links with there titles
+//  Selectore is the html element you are targetting.
 func scrapeUrl(targetUrl string, selector string) []PageLinks {
   // Instantiate default collector
   c := colly.NewCollector(
