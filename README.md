@@ -17,8 +17,9 @@ Editer: NeoVim
 # Useful Websites
 
 ### videos
-- [Basics of web scarping video] (https://www.youtube.com/watch?v=EJNJ5_i_zu8)
 - [A web scraper video totorial with go.](https://pkg.go.dev/github.com/gocolly/colly#section-readme)
+- [Basics of web scarping video] (https://www.youtube.com/watch?v=EJNJ5_i_zu8)
+- [Working with sql in go](https://www.youtube.com/watch?v=Y7a0sNKdoQk)
 
 ### Docs
 - [Colly Docs - my scaper libray](https://www.youtube.com/watch?v=LMPeAttF2ng&list=PL5dTjWUk_cPbbCYRQKhPnmougbStBPba8&index=6)
