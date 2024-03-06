@@ -1,11 +1,11 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
+  "database/sql"
+  "fmt"
+  "log"
 
-	"github.com/gocolly/colly"
+  "github.com/gocolly/colly"
 )
 
 type PageLinks struct {
@@ -14,16 +14,18 @@ type PageLinks struct {
 }
 
 func main() {
+  // send scarper to tarURL.
   tarURL := "https://9to5mac.com"
   articles := scrapeUrl(tarURL, "a.article__title-link")
- 
+  
+  // print scraped results.
   fmt.Println("Collected links:")
   for _, article := range articles {
     fmt.Printf("\n%s \n%s\n", article.title, article.link)
   }
 }
 
-// TODO
+// Opens and closes the onection to the database.
 func connectDataBase() {
   // Database connection details
   // TODO Replace with your credentials
@@ -43,6 +45,7 @@ func connectDataBase() {
     log.Fatal(err)
   }
 }
+
 
 // TODO
 func userInput() {
