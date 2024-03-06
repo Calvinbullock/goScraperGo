@@ -9,7 +9,7 @@ import (
   _ "github.com/go-sql-driver/mysql"
 )
 
-type PageLinks struct {
+type PageLink struct {
   title string
   link string
 }
@@ -36,10 +36,10 @@ func main() {
 
 
 // Opens and closes the onection to the database.
-func connectDataBase() {
+func connectDataBase() *sql.DB{
   // Database connection details - Generaly this should not be hard codded.
   // NOTE pass this in insted of hard codeing
-  dsn := ""
+  dsn := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
 
   // Connect to the database
   db, err := sql.Open("mysql", dsn)
@@ -54,6 +54,13 @@ func connectDataBase() {
   if err = db.Ping(); err != nil {
     log.Fatal(err)
   }
+  return db
+}
+
+
+// inserts data to dataBase
+func insertToDatabase(db *sql.DB, article PageLink) {
+  quary := ""
 }
 
 
@@ -64,27 +71,27 @@ func userInput() {
 
 
 // TODO
-func linkSearch(articles []PageLinks, searchTarget string) {
+func linkSearch(articles []PageLink, searchTarget string) {
   
 }
 
 
 // Scrapes a url and returns the slice of links with there titles
 //  Selectore is the html element you are targetting.
-func scrapeUrl(targetUrl string, selector string) []PageLinks {
+func scrapeUrl(targetUrl string, selector string) []PageLink {
   // Instantiate default collector
   c := colly.NewCollector(
     //colly.AllowedDomains("9to5mac.com", "9to5mac.com"),
   )
  
-  var articles []PageLinks
+  var articles []PageLink
 
   // On every a element which has selector attribute scrape the link and title
   c.OnHTML(selector, func(e *colly.HTMLElement) {
     link := e.Attr("href")
     title := e.Text
 
-    page := PageLinks{link:link, title: title}
+    page := PageLink{link:link, title: title}
     articles = append(articles, page)
   })
 
