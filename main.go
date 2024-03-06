@@ -6,12 +6,14 @@ import (
   "log"
 
   "github.com/gocolly/colly"
+  _ "github.com/go-sql-driver/mysql"
 )
 
 type PageLinks struct {
   title string
   link string
 }
+
 
 func main() {
   // send scarper to tarURL.
@@ -25,11 +27,13 @@ func main() {
   }
 }
 
+
 // Opens and closes the onection to the database.
 func connectDataBase() {
-  // Database connection details
-  // TODO Replace with your credentials
-  dsn := "user:password@tcp(localhost:3306)/dbname?charset=utf8"
+  // Database connection details - Generaly this should not be hard codded.
+  // TODO Replace with your credentials 
+  // NOTE pass this in insted of hard codeing
+  dsn := "user:password@tcp(localhost:3306)/go_scraper?charset=utf8mb4"
 
   // Connect to the database
   db, err := sql.Open("mysql", dsn)
@@ -52,10 +56,12 @@ func userInput() {
 
 }
 
+
 // TODO
 func linkSearch(articles []PageLinks, searchTarget string) {
   
 }
+
 
 // Scrapes a url and returns the slice of links with there titles
 //  Selectore is the html element you are targetting.
