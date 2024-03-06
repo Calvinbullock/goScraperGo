@@ -8,9 +8,9 @@
 
 # Development Environment
 
-Language: go-lang
+Language: go-lang, mySQL
 Library: colly, go-sql-driver/mysql/
-Editer: NeoVim
+Editer: NeoVim, mySQL-server
 
 # Useful Websites
 
