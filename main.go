@@ -1,8 +1,11 @@
 package main
 
 import (
-  "fmt"
-  "github.com/gocolly/colly"
+	"database/sql"
+	"fmt"
+	"log"
+
+	"github.com/gocolly/colly"
 )
 
 type PageLinks struct {
@@ -22,7 +25,23 @@ func main() {
 
 // TODO
 func connectDataBase() {
+  // Database connection details
+  // TODO Replace with your credentials
+  dsn := "user:password@tcp(localhost:3306)/dbname?charset=utf8"
 
+  // Connect to the database
+  db, err := sql.Open("mysql", dsn)
+  defer db.Close() // Close the connection when the program exits
+  
+  // Check if databased open retunred errer
+  if err != nil {
+    log.Fatal(err)
+  }
+  
+  // Check that the database connected.
+  if err = db.Ping(); err != nil {
+    log.Fatal(err)
+  }
 }
 
 // TODO
