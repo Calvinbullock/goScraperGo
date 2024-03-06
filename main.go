@@ -16,14 +16,21 @@ type PageLinks struct {
 
 
 func main() {
-  // send scarper to tarURL.
-  tarURL := "https://9to5mac.com"
-  articles := scrapeUrl(tarURL, "a.article__title-link")
-  
-  // print scraped results.
-  fmt.Println("Collected links:")
-  for _, article := range articles {
-    fmt.Printf("\n%s \n%s\n", article.title, article.link)
+  scrapeFlag := false
+
+  connectDataBase()
+
+  // NOTE keep this from runnint for now
+  if scrapeFlag == true {
+    // send scarper to tarURL.
+    tarURL := "https://9to5mac.com"
+    articles := scrapeUrl(tarURL, "a.article__title-link")
+
+    // print scraped results.
+    fmt.Println("Collected links:")
+    for _, article := range articles {
+      fmt.Printf("\n%s \n%s\n", article.title, article.link)
+    }
   }
 }
 
@@ -31,9 +38,8 @@ func main() {
 // Opens and closes the onection to the database.
 func connectDataBase() {
   // Database connection details - Generaly this should not be hard codded.
-  // TODO Replace with your credentials 
   // NOTE pass this in insted of hard codeing
-  dsn := "user:password@tcp(localhost:3306)/go_scraper?charset=utf8mb4"
+  dsn := ""
 
   // Connect to the database
   db, err := sql.Open("mysql", dsn)
