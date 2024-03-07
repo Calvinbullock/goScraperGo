@@ -18,7 +18,8 @@ Editer: NeoVim, mySQL-server
 - [A web scraper video totorial with go.](https://pkg.go.dev/github.com/gocolly/colly#section-readme)
 - [Basics of web scarping video] (https://www.youtube.com/watch?v=EJNJ5_i_zu8)
 - [Working with sql in go](https://www.youtube.com/watch?v=Y7a0sNKdoQk)
-
+- [Intro to wroking with mySQL server](https://www.youtube.com/watch?v=xiUTqnI6xk8)
+)
 ### Docs
 - [Colly Docs - scaper libray](https://www.youtube.com/watch?v=LMPeAttF2ng&list=PL5dTjWUk_cPbbCYRQKhPnmougbStBPba8&index=6)
 - [Go-docs building a module] (https://go.dev/doc/tutorial/create-module)
