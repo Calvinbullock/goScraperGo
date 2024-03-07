@@ -15,97 +15,72 @@ type PageLink struct {
   link string
 }
 
-
 func main() {
-  scrapeFlag := true
+  var scrapeFlag string
+  fmt.Println("Do you want to scrape? (y/n): ")
+  fmt.Scanf("%f", scrapeFlag)
 
   db := connectDataBase()
 
-  // NOTE keep this from runnint for now
-  if scrapeFlag {
+  if scrapeFlag == "y"{
     // send scarper to tarURL.
     tarURL := "https://9to5mac.com"
     articles := scrapeUrl(tarURL, "a.article__title-link")
 
-    // print scraped results.
+    // send scraped results to DataBase.
     fmt.Println("Collected links:")
     for _, article := range articles {
       fmt.Printf("\n%d \n%s \n%s\n", article.id, article.title, article.link)
       insertToDatabase(db, article)
     }
   }
+  // Close the DataBase connection when the program exits
+  defer db.Close() 
 }
 
-
-// Opens and closes the onection to the database.
+// Opens and closes the conection to the database.
 func connectDataBase() *sql.DB{
-  // Database connection details - Generaly this should not be hard codded.
-  // NOTE pass this in insted of hard codeing
+  // NOTE Database connection details - Generaly this should not be hard codded.
+  //   pass this in insted of hard codeing
   dsn := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
 
   // Connect to the database
   db, err := sql.Open("mysql", dsn)
-  defer db.Close() // Close the connection when the program exits
   
-  // Check if databased open retunred errer
+  // Check if databased open returned errer
   if err != nil {
-    log.Fatal(err)
+    log.Fatal("DB open? ", err)
   }
   
   // Check that the database connected.
   if err = db.Ping(); err != nil {
-    log.Fatal(err)
+    log.Fatal("DB ping? ", err)
   }
   return db
 }
 
-
 // inserts data to dataBase
-func insertToDatabase(db *sql.DB, article PageLink) error {
-/* NOTE This function was writtn with the help of google Bard.
-//  This is the prompt I used:
-//    Can you show me an exsample of go-lang code that is inserting data into a 
-//    my sql data base? */
+func insertToDatabase(db *sql.DB, article PageLink) {
+  quary := "INSERT INTO article_table(id, title, link) VALUES (?, ?, ?)"
 
-  // Prepare the SQL statement with placeholders for values
-  stmt, err := db.Prepare("INSERT INTO article_table(id, title, link) VALUES ($1, $2, $3)")
+  err := db.QueryRow(quary, article.id, article.title, article.link)
   if err != nil {
-    return err
+    fmt.Println("Insert fault: ", err)
   }
-  defer stmt.Close() // Close the prepared statement
-
-  // Execute the statement with the articles's data
-  result, err := stmt.Exec(article.id, article.title, article.link)
-  if err != nil {
-    log.Fatal(err)
-    return err
-  }
-
-  // Get the last inserted ID (optional)
-  lastID, err := result.LastInsertId()
-  if err != nil {
-    return err
-  }
-  fmt.Printf("Last inserted ID: %d\n", lastID)
-
-  return nil
 }
-
 
 // TODO
 func userInput() {
 
 }
 
-
 // TODO
 func linkSearch(articles []PageLink, searchTarget string) {
   
 }
 
-
-// Scrapes a url and returns the slice of links with there titles
-//  Selectore is the html element you are targetting.
+// Scrapes a url and returns a slice of PageLinks.
+//  Selector is the html element you are targetting.
 func scrapeUrl(targetUrl string, selector string) []PageLink {
   id := 0
   // Instantiate default collector
