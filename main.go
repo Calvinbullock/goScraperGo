@@ -1,12 +1,12 @@
 package main
 
 import (
-  "database/sql"
-  "fmt"
-  "log"
+	"database/sql"
+	"fmt"
+	"log"
 
-  "github.com/gocolly/colly"
-  _ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gocolly/colly"
 )
 
 type PageLink struct {
@@ -17,28 +17,55 @@ type PageLink struct {
 
 func main() {
   // User input for scraping or not.
-  var scrapeFlag rune
-  fmt.Println("Do you want to scrape? (y/n): ")
-  fmt.Scanf("%s\n", scrapeFlag)
+  var userChoice int
+
+  fmt.Println("Do you want to scrape url  (1): ")
+  fmt.Println("Print out scraped data     (2): ")
+  fmt.Println("Exit                       (3): ")
+  fmt.Scanf("%n\n", userChoice)
 
   // NOTE Database connection details - Generaly this should not be hard codded.
   dbCredentals := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
+  tarURL := "https://9to5mac.com"
   db := connectDataBase(dbCredentals)
+  var articles []PageLink
 
-  if scrapeFlag == 0 {
+  // Scrape the url and store into DataBase
+  if userChoice == 1 {
     // send scarper to tarURL.
-    tarURL := "https://9to5mac.com"
     articles := scrapeUrl(tarURL, "a.article__title-link")
 
     // send scraped results to DataBase.
-    fmt.Println("Collected links:")
     for _, article := range articles {
-      fmt.Printf("\n%d \n%s \n%s\n", article.id, article.title, article.link)
       insertToDatabase(db, article)
     }
   }
-  // Close the DataBase connection when the program exits
-  defer db.Close() 
+
+  // TODO need to make a function to re-parse the database when realoading this program.
+  if userChoice == 2 {
+    printArticles(articles)
+  }
+  
+  // Close the DataBase connection and exit
+  if userChoice == 3 { 
+    db.Close() 
+    return
+  }
+}
+
+// Print out scraped Data
+func printArticles(articles []PageLink) {
+  if articles != nil {
+    fmt.Println("Collected links:")
+    for _, article := range articles {
+      fmt.Printf("\n%d \n%s \n%s\n", article.id, article.title, article.link)
+    }
+  }
+}
+
+// TODO set up a database search
+func linkSearch(articles []PageLink, searchTarget string) {
+  
 }
 
 // Opens and closes the conection to the database.
@@ -66,16 +93,6 @@ func insertToDatabase(db *sql.DB, article PageLink) {
   if err != nil {
     fmt.Println("Insert fault: ", err)
   }
-}
-
-// TODO
-func userInput() {
-
-}
-
-// TODO
-func linkSearch(articles []PageLink, searchTarget string) {
-
 }
 
 // Scrapes a url and returns a slice of PageLinks.
