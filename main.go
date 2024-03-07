@@ -18,48 +18,58 @@ type PageLink struct {
 func main() {
   // User input for scraping or not.
   var userChoice int
+  for true {
+    fmt.Println("Do you want to scrape url  (1): ")
+    fmt.Println("Print out scraped data     (2): ")
+    fmt.Println("Exit                       (3): ")
+    fmt.Scanf("%d\n", &userChoice)
+    fmt.Println()
 
-  fmt.Println("Do you want to scrape url  (1): ")
-  fmt.Println("Print out scraped data     (2): ")
-  fmt.Println("Exit                       (3): ")
-  fmt.Scanf("%n\n", userChoice)
+    // NOTE Database connection details - Generaly this should not be hard codded.
+    dbCredentals := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
+    tarURL := "https://9to5mac.com"
+    db := connectDataBase(dbCredentals)
+    var articles []PageLink
 
-  // NOTE Database connection details - Generaly this should not be hard codded.
-  dbCredentals := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
-  tarURL := "https://9to5mac.com"
-  db := connectDataBase(dbCredentals)
-  var articles []PageLink
+    // Scrape the url and store into DataBase
+    if userChoice == 1 {
+      // send scarper to tarURL.
+      fmt.Println("Scraping...")
+      articles := scrapeUrl(tarURL, "a.article__title-link")
+      fmt.Println("Scrape finished.")
 
-  // Scrape the url and store into DataBase
-  if userChoice == 1 {
-    // send scarper to tarURL.
-    articles := scrapeUrl(tarURL, "a.article__title-link")
+      // send scraped results to DataBase.
+      for _, article := range articles {
+        insertToDatabase(db, article)
+      }
+    }
 
-    // send scraped results to DataBase.
-    for _, article := range articles {
-      insertToDatabase(db, article)
+    // TODO need to make a function to re-parse the database when realoading this program.
+    if userChoice == 2 {
+      printArticles(articles)
+    }
+
+    // Close the DataBase connection and exit
+    if userChoice == 3 { 
+      db.Close() 
+      return
     }
   }
-
-  // TODO need to make a function to re-parse the database when realoading this program.
-  if userChoice == 2 {
-    printArticles(articles)
-  }
-  
-  // Close the DataBase connection and exit
-  if userChoice == 3 { 
-    db.Close() 
-    return
-  }
+  // add a sapce before menue re-print
+  fmt.Println() 
 }
 
 // Print out scraped Data
 func printArticles(articles []PageLink) {
-  if articles != nil {
+  if len(articles) > 0 {
     fmt.Println("Collected links:")
     for _, article := range articles {
+      // BUG not printig articles
       fmt.Printf("\n%d \n%s \n%s\n", article.id, article.title, article.link)
     }
+  } else {
+    fmt.Println("No data to print.")
+    fmt.Println()
   }
 }
 
