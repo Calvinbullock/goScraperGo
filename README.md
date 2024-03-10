@@ -5,7 +5,6 @@ This program will scrape a url and then store all the scraped data into a databa
 My goal in wrting this program was to learn about scraping and database interfaces. As well as to help me remember how to use mySQL
 and to get to know mySQL server.
 
-**TODO** - VID LINK
 [Software Demo Video](https://youtu.be/pxG08mXEJXc)
 
 # Development Environment
