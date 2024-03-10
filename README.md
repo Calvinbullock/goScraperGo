@@ -6,7 +6,7 @@ My goal in wrting this program was to learn about scraping and database interfac
 and to get to know mySQL server.
 
 **TODO** - VID LINK
-[Software Demo Video - Dead]()
+[Software Demo Video](https://youtu.be/pxG08mXEJXc)
 
 # Development Environment
 
