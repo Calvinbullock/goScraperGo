@@ -1,32 +1,35 @@
 # Overview
 
-{Provide a description of the software that you wrote to demonstrate the C# language.}
+This program will scrape a url and then store all the scraped data into a database. 
 
-{Describe your purpose for writing this software.}
+My goal in wrting this program was to learn about scraping and database interfaces. As well as to help me remember how to use mySQL
+and to get to know mySQL server.
 
-{Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running and a walkthrough of the code. Focus should be on sharing what you learned about the language syntax.}
-
+**TODO** - VID LINK
 [Software Demo Video - Dead]()
 
 # Development Environment
 
-Langwage: go-lang
-Library: colly
-Editer: NeoVim
+Language: go-lang, mySQL
+Library: colly, go-sql-driver/mysql/
+Editers: NeoVim, mySQL-server
 
 # Useful Websites
 
 ### videos
-- [Basics of web scarping video] (https://www.youtube.com/watch?v=EJNJ5_i_zu8)
 - [A web scraper video totorial with go.](https://pkg.go.dev/github.com/gocolly/colly#section-readme)
-
+- [Intro to wroking with mySQL server](https://www.youtube.com/watch?v=xiUTqnI6xk8)
+- [Working with sql in go](https://www.youtube.com/watch?v=Y7a0sNKdoQk)
+- [Basics of web scarping] (https://www.youtube.com/watch?v=EJNJ5_i_zu8)
+)
 ### Docs
-- [Colly Docs - my scaper libray](https://www.youtube.com/watch?v=LMPeAttF2ng&list=PL5dTjWUk_cPbbCYRQKhPnmougbStBPba8&index=6)
+- [Colly Docs - scaper libray](https://www.youtube.com/watch?v=LMPeAttF2ng&list=PL5dTjWUk_cPbbCYRQKhPnmougbStBPba8&index=6)
 - [Go-docs building a module] (https://go.dev/doc/tutorial/create-module)
+- [Go-docs server drivers] (https://pkg.go.dev/database/sql)
 
 # Future Work
-{Make a list of things that I need to fix, improve, and add in the future.}
 
-- Item 1
-- Item 2
-- Item 3
+- Data Base search
+- Make the scraper more user configuralble
+    - prompt for target url
+    - prompt for target html element
