@@ -29,7 +29,7 @@ func main() {
     dbCredentals := "debian-sys-maint:fAkBoMzWqEDlkGNf@tcp(localhost:3306)/go_scrape?charset=utf8mb4"
     tarURL := "https://9to5mac.com"
     db := connectDataBase(dbCredentals)
-    var articles []PageLink
+    var articles []PageLink // BUG is this not actually adding to the scope?
 
     // Scrape the url and store into DataBase
     if userChoice == 1 {
@@ -61,6 +61,7 @@ func main() {
 
 // Print out scraped Data
 func printArticles(articles []PageLink) {
+  fmt.Println(len(articles))
   if len(articles) > 0 {
     fmt.Println("Collected links:")
     for _, article := range articles {
