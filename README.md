@@ -30,4 +30,6 @@ Editers: NeoVim, mySQL-server
 # Future Work
 
 - Data Base search
-- Item 2
+- Make the scraper more user configuralble
+    - prompt for target url
+    - prompt for target html element
